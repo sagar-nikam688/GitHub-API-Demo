@@ -14,5 +14,6 @@ Assignment Of App Usinng GitHub API
 
 3. Followers Listing
 
-![followers](https://user-images.githubusercontent.com/45251228/50773140-f62c7500-12b5-11e9-9923-977659d59ca4.png)
 
+
+4. Search user Screen
