@@ -27,7 +27,7 @@ class FollowersViewController: UIViewController {
     
     func getFollowers(userID : String) {
         showLoader()
-        let urlStr = "https://api.github.com/users/" + "userID" + "/followers" + "?client_id=ed4000cb58fbfd9ebd7e&client_secret=d8e477237c49da7857593e50904f0dd4f3ef0473"
+        let urlStr = "https://api.github.com/users/" + userID + "/followers" + "?client_id=ed4000cb58fbfd9ebd7e&client_secret=d8e477237c49da7857593e50904f0dd4f3ef0473"
         NetworkHelper.shareWithPars(parameter: nil,method: .get, url: urlStr, completion: { (result) in
             self.dismissLoader()
             let getLoginInfo = JSON(result)
