@@ -63,7 +63,9 @@ class SearchViewController: UIViewController {
                 let msg = getLoginInfo["message"].stringValue
                 self.usersArray.removeAll()
                 self.tableview.reloadData()
-                self.showAlert(message: msg, Title:"Alert")
+                DispatchQueue.main.async(execute: {
+                    self.showAlert(message: msg, Title:"Alert")
+                })
             }
         })
     }
@@ -136,6 +138,7 @@ extension SearchViewController : UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.searchbar.resignFirstResponder()
+        searchBar.text = ""
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

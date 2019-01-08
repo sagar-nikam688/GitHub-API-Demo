@@ -26,19 +26,23 @@ class FollowersViewController: UIViewController {
     }
     
     func getFollowers(userID : String) {
-        showLoader()
+       // showLoader()
         let urlStr = "https://api.github.com/users/" + userID + "/followers" + "?client_id=ed4000cb58fbfd9ebd7e&client_secret=d8e477237c49da7857593e50904f0dd4f3ef0473"
         NetworkHelper.shareWithPars(parameter: nil,method: .get, url: urlStr, completion: { (result) in
             self.dismissLoader()
             let getLoginInfo = JSON(result)
             let response = result
-            if response.count > 1 {
+            if response.count > 0 {
                 print(response)
+                self.followersArray.removeAll()
                 for responseData  in response {
                     let jsonObject = JSON(responseData as Any)
                     self.followersArray.append(UserInfoObjectModel(modelJSON: jsonObject))
                 }
                 self.tableview.reloadData()
+                DispatchQueue.main.async(execute: {
+                    self.dismissLoader()
+                })
             } else {
                 if let message = getLoginInfo["message"].string {
                     self.showAlert(message: message, Title: "Error")
