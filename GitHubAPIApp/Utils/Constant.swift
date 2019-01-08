@@ -14,6 +14,8 @@ let kNoInterNetMessage = "No Internet Connection"
 let kSomethingGetWrong = "Something Went Wrong"
 let KLoginFailed = "Failed to Login."
 
+var loggedInUserID = ""
+
 open class AppUtility {
     static func heightForView(text: String = "", width: CGFloat) -> CGFloat{
         let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))

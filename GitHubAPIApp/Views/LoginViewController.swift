@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 
+
 class LoginViewController: UIViewController {
 
     @IBOutlet var usernameTextField : UITextField!
@@ -21,6 +22,8 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
     }
 
 
@@ -51,13 +54,14 @@ class LoginViewController: UIViewController {
      * // MARK: - API Method : LoginInfo()
      */
     func getLoginInfo() {
+        self.showLoader()
         let clientId = "ed4000cb58fbfd9ebd7e"
         let clientSecret = "d8e477237c49da7857593e50904f0dd4f3ef0473"
-        let params = ["scopes":"repo", "note": "dev", "client_id": clientId, "client_secret": clientSecret]
-        
+        loggedInUserID = usernameTextField.text!
         let urlStr = "https://api.github.com/users/" + usernameTextField.text! + "?client_id=" + clientId + "&client_secret=" + clientSecret
         NetworkHelper.shareWithPars(parameter: nil,method: .get, url: urlStr, completion: { (result) in
         }, completionError:  { (error) in
+            self.dismissLoader()
             let errorResponse = error as NSDictionary
             if errorResponse.value(forKey: "errorType") as! NSNumber == 1 {
                 self.getLoginInfo()
@@ -66,6 +70,7 @@ class LoginViewController: UIViewController {
                 self.showAlert(message: kSomethingGetWrong, Title: "Error")
             }
         }, completionLogin: {(result) in
+            self.dismissLoader()
             let getLoginInfo = JSON(result)
             let response = result as NSDictionary
             if response["id"] != nil {
@@ -74,6 +79,7 @@ class LoginViewController: UIViewController {
                 vc.responseData = response
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
+                self.dismissLoader()
                 if let message = getLoginInfo["message"].string {
                     self.showAlert(message: message, Title: "Error")
                 }
@@ -90,6 +96,29 @@ class LoginViewController: UIViewController {
         alertController.addAction(retryAction)
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    func showLoader(){
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func dismissLoader() {
+        self.dismiss(animated: false, completion: nil)
+    }
+
+    
 
 }
-
+extension LoginViewController : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        self.view.endEditing(true)
+        return false
+    }
+}

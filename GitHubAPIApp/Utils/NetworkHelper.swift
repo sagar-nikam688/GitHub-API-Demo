@@ -27,6 +27,7 @@ public class NetworkHelper : UIViewController {
             Alamofire.request( url , method: .get)
                 .responseJSON { response in
                     if response.result.isSuccess {
+                        print(response)
                         if let json = response.result.value {
                             if let jsonDict = json as? [String: Any] {
                                 completionLogin(jsonDict)

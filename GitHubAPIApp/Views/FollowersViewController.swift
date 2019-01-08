@@ -9,7 +9,6 @@
 import UIKit
 import SwiftyJSON
 
-
 class FollowersViewController: UIViewController {
     
     @IBOutlet var tableview : UITableView!
@@ -18,6 +17,8 @@ class FollowersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Followers"
+        self.navigationController?.navigationBar.backItem?.title = "Back"
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.tableview.register(UINib(nibName: "FollowerTableViewCell", bundle: nil), forCellReuseIdentifier: "FollowerTableViewCell")
         // Do any additional setup after loading the view.
@@ -25,8 +26,10 @@ class FollowersViewController: UIViewController {
     }
     
     func getFollowers(userID : String) {
+        showLoader()
         let urlStr = "https://api.github.com/users/" + "torvalds" + "/followers" + "?client_id=ed4000cb58fbfd9ebd7e&client_secret=d8e477237c49da7857593e50904f0dd4f3ef0473"
         NetworkHelper.shareWithPars(parameter: nil,method: .get, url: urlStr, completion: { (result) in
+            self.dismissLoader()
             let getLoginInfo = JSON(result)
             let response = result
             if response.count > 1 {
@@ -42,6 +45,7 @@ class FollowersViewController: UIViewController {
                 }
             }
         }, completionError:  { (error) in
+            self.dismissLoader()
             let errorResponse = error as NSDictionary
             if errorResponse.value(forKey: "errorType") as! NSNumber == 1 {
                 self.showAlert(message: kNoInterNetMessage, Title: KLoginFailed )
@@ -49,6 +53,7 @@ class FollowersViewController: UIViewController {
                 self.showAlert(message: kSomethingGetWrong, Title: "Error")
             }
         }, completionLogin: { (result) in
+            self.dismissLoader()
             let getLoginInfo = JSON(result)
             if let message = getLoginInfo["message"].string {
                 self.showAlert(message: message, Title: "Error")
@@ -65,8 +70,21 @@ class FollowersViewController: UIViewController {
         alertController.addAction(retryAction)
         self.present(alertController, animated: true, completion: nil)
     }
-
     
+    func showLoader(){
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func dismissLoader() {
+        self.dismiss(animated: false, completion: nil)
+    }
 
     /*
     // MARK: - Navigation
@@ -96,6 +114,6 @@ extension FollowersViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 100
     }
 }
