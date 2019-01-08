@@ -42,18 +42,28 @@ class SearchViewController: UIViewController {
             self.dismissLoader()
             let getLoginInfo = JSON(result)
             if let items = getLoginInfo["items"].array {
-                self.usersArray.removeAll()
-                if items.count > 1 {
-                    for item  in items {
-                        let jsonObject = JSON(item as Any)
-                        self.usersArray.append(UserInfoObjectModel(modelJSON: jsonObject))
-                    }
+                if getLoginInfo["total_count"].int == 0 {
+                    self.showAlert(message: "No Record Found!", Title:"Alert")
+                    self.tableview.reloadData()
                 } else {
-                    if let message = getLoginInfo["message"].string {
-                        self.showAlert(message: message, Title: "Error")
+                    self.usersArray.removeAll()
+                    if items.count > 1 {
+                        for item  in items {
+                            let jsonObject = JSON(item as Any)
+                            self.usersArray.append(UserInfoObjectModel(modelJSON: jsonObject))
+                        }
+                    } else {
+                        if let message = getLoginInfo["message"].string {
+                            self.showAlert(message: message, Title: "Error")
+                        }
                     }
+                    self.tableview.reloadData()
                 }
+            } else if getLoginInfo["message"].stringValue  != "" {
+                let msg = getLoginInfo["message"].stringValue
+                self.usersArray.removeAll()
                 self.tableview.reloadData()
+                self.showAlert(message: msg, Title:"Alert")
             }
         })
     }
