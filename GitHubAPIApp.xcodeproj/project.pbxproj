@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C12272A21EDE627008140E1 /* NetworkFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C12272921EDE627008140E1 /* NetworkFetch.swift */; };
 		1C92413921DF272F000B9FD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C92413821DF272F000B9FD0 /* AppDelegate.swift */; };
 		1C92413B21DF272F000B9FD0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C92413A21DF272F000B9FD0 /* LoginViewController.swift */; };
 		1C92413E21DF272F000B9FD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C92413C21DF272F000B9FD0 /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C12272921EDE627008140E1 /* NetworkFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFetch.swift; sourceTree = "<group>"; };
 		1C92413521DF272F000B9FD0 /* GitHubAPIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubAPIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C92413821DF272F000B9FD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C92413A21DF272F000B9FD0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			children = (
 				1C92416D21DF4619000B9FD0 /* Constant.swift */,
 				1C92416921DF307F000B9FD0 /* NetworkHelper.swift */,
+				1C12272921EDE627008140E1 /* NetworkFetch.swift */,
 				1C92416A21DF307F000B9FD0 /* NetworkReachability.swift */,
 			);
 			path = Utils;
@@ -441,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CE97A2421E37922002111DA /* SearchViewController.swift in Sources */,
+				1C12272A21EDE627008140E1 /* NetworkFetch.swift in Sources */,
 				1CE97A2221E37911002111DA /* FollowersViewController.swift in Sources */,
 				1CE97A2721E37DC8002111DA /* FollowerTableViewCell.swift in Sources */,
 				1CE97A1921E33AB5002111DA /* HeaderTableViewCell.swift in Sources */,
